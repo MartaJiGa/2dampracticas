@@ -2,7 +2,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.BooksController">
+<VBox spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.svalero.JavaFX.controllers.BooksController">
+
     <Label text="Lista de Libros" style="-fx-font-size: 18px;"/>
     <TableView fx:id="booksTable">
         <columns>
