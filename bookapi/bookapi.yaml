@@ -1,0 +1,241 @@
+openapi: 3.0.1
+info:
+  title: Book API
+  description: API para la gestión de libros y autores.
+  version: 1.0.0
+tags:
+  - name: authors
+    description: Operaciones con autores
+  - name: books
+    description: Operaciones con libros
+servers:
+  - url: 'http://localhost:8080'
+    description: Servidor local
+paths:
+  /authors:
+    get:
+      tags:
+        - authors
+      summary: Obtiene todos los autores
+      description: Lista todos los autores registrados en la base de datos.
+      responses:
+        '200':
+          description: Autores obtenidos con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthorOutDto'
+    post:
+      tags:
+        - authors
+      summary: Crea un nuevo autor
+      description: Registra un nuevo autor en la base de datos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInDto'
+      responses:
+        '201':
+          description: Autor creado exitosamente
+
+  /authors/{id}:
+    get:
+      tags:
+        - authors
+      summary: Obtiene los detalles de un autor
+      description: Recupera la información detallada de un autor específico.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Autor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorOutDto'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+        - authors
+      summary: Actualiza un autor existente
+      description: Modifica los datos de un autor en la base de datos.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorInDto'
+      responses:
+        '200':
+          description: Autor actualizado exitosamente
+    delete:
+      tags:
+        - authors
+      summary: Elimina un autor
+      description: Borra un autor de la base de datos.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Autor eliminado exitosamente
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /books:
+    get:
+      tags:
+        - books
+      summary: Obtiene todos los libros
+      description: Lista todos los libros registrados en la base de datos.
+      responses:
+        '200':
+          description: Libros obtenidos con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookOutDto'
+    post:
+      tags:
+        - books
+      summary: Crea un nuevo libro
+      description: Registra un nuevo libro en la base de datos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInDto'
+      responses:
+        '201':
+          description: Libro creado exitosamente
+
+  /books/{id}:
+    get:
+      tags:
+        - books
+      summary: Obtiene los detalles de un libro
+      description: Recupera la información detallada de un libro específico.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Libro encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookOutDto'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+        - books
+      summary: Actualiza un libro existente
+      description: Modifica los datos de un libro en la base de datos.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInDto'
+      responses:
+        '200':
+          description: Libro actualizado exitosamente
+    delete:
+      tags:
+        - books
+      summary: Elimina un libro
+      description: Borra un libro de la base de datos.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Libro eliminado exitosamente
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  responses:
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: No encontrado
+  schemas:
+    AuthorInDto:
+      type: object
+      properties:
+        authorName:
+          type: string
+        activeAuthor:
+          type: boolean
+        nationality:
+          type: string
+        birthDate:
+          type: string
+          format: date
+    AuthorOutDto:
+      allOf:
+        - $ref: '#/components/schemas/AuthorInDto'
+      properties:
+        id:
+          type: integer
+    BookInDto:
+      type: object
+      properties:
+        title:
+          type: string
+        genre:
+          type: string
+        publicationDate:
+          type: string
+          format: date
+        available:
+          type: boolean
+        authorId:
+          type: integer
+    BookOutDto:
+      allOf:
+        - $ref: '#/components/schemas/BookInDto'
+      properties:
+        id:
+          type: integer
