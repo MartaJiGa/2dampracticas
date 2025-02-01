@@ -1,5 +1,6 @@
 package com.svalero.bookapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,8 @@ public class Book {
     private Boolean available = true;
 
     @ManyToOne
-    @JoinColumn(name = "id_author", nullable = false)
+    @JoinColumn(name = "id_author")
+    @JsonBackReference
     private Author author;
+
 }

@@ -23,13 +23,11 @@ public class Author {
     @Column(name = "active_author")
     private Boolean activeAuthor;
 
-    @Column(name = "nacionality", unique = true, nullable = false, length = 100)
+    @Column(name = "nacionality", nullable = false, length = 100)
     private String nationality;
 
     @Column(name = "birth_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books;
 }
