@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ApiService {
-    private static final String API_URL = "http://localhost:8080/bookapi";
+    private static final String API_URL = "http://localhost:8080/books";
     private static final HttpClient client = HttpClient.newHttpClient();
 
     public static CompletableFuture<List<Book>> fetchBooks() {
