@@ -17,8 +17,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="autores.php">Autores</a></li>
-                <li class="nav-item"><a class="nav-link" href="libros.php">Libros</a></li>
+                <li class="nav-item"><a class="nav-link" href="authors.php">Autores</a></li>
+                <li class="nav-item"><a class="nav-link" href="books.php">Libros</a></li>
                 <li class="nav-item"><a class="nav-link" href="add_author.php">Añadir Autor</a></li>
                 <li class="nav-item"><a class="nav-link" href="add_book.php">Añadir Libro</a></li>
             </ul>
