@@ -17,7 +17,7 @@ include 'includes/db.php'; ?>
     <tbody>
     <?php
     $stmt = $pdo->query("SELECT * FROM authors");
-    
+
     while ($autor = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo "<tr>
                 <td>{$autor['id']}</td>
