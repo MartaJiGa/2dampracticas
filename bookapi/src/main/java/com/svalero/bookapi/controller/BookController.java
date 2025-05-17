@@ -54,7 +54,7 @@ public class BookController {
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<BookOutDto> updateBook(@PathVariable Integer id, @RequestBody BookInDto bookInDto) {
+    public ResponseEntity<BookOutDto> updateBook(@PathVariable Integer id, @Valid @RequestBody BookInDto bookInDto) {
         logger.info("updateBook");
         BookOutDto updatedBook = bookService.updateBook(id, bookInDto);
         return ResponseEntity.ok(updatedBook);
