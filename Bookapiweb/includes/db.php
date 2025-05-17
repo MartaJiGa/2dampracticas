@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+$host = "bookapi-mysql-1";
 $dbname = "bookapi";
-$username = "root";
-$password = "root";
+$username = "user";
+$password = "pass";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
