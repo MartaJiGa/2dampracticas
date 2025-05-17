@@ -148,7 +148,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"El nombre del viento\",\n  \"genre\": \"Fantasía\",\n  \"publicationDate\": \"2007-03-27\",\n  \"available\": true,\n  \"authorId\": 1\n}"
+							"raw": "{\n  \"title\": \"Flush\",\n  \"genre\": \"Realismo\",\n  \"publicationDate\": \"2007-03-27\",\n  \"available\": true,\n  \"authorId\": 15\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/books",
@@ -240,13 +240,14 @@
 									"  pm.response.to.have.status(204);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"The response is empty\", () => {\r",
-									"    pm.expect(pm.response.json()).to.be.empty;\r",
+									"pm.test(\"The response status is 204 No Content\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 150ms\", () => {\r",
+									"pm.test(\"Response time is less than 150ms\", function () {\r",
 									"  pm.expect(pm.response.responseTime).to.be.below(150);\r",
-									"});"
+									"});\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -270,7 +271,7 @@
 							"variable": [
 								{
 									"key": "bookId",
-									"value": "8"
+									"value": "24"
 								}
 							]
 						},
@@ -416,7 +417,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"authorName\": \"Gabriel García Márquez\",\n  \"activeAuthor\": false,\n  \"nationality\": \"Colombiana\",\n  \"birthDate\": \"1927-03-06\"\n}"
+							"raw": "{\n  \"authorName\": \"Virginia Woolf\",\n  \"activeAuthor\": false,\n  \"nationality\": \"Británica\",\n  \"birthDate\": \"1882-01-25\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8080/authors",
@@ -537,7 +538,7 @@
 							"variable": [
 								{
 									"key": "authorId",
-									"value": "9"
+									"value": "17"
 								}
 							]
 						},
