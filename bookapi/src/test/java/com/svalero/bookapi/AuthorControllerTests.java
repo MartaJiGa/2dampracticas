@@ -237,6 +237,92 @@ public class AuthorControllerTests {
     //endregion
 
     //region PUT
+
+    @Test
+    public void testModifyAuthorOk() throws Exception {
+        int authorId = 1;
+        LocalDate date = LocalDate.of(1948, 4, 28);
+        Date formattedDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        AuthorInDto authorInDTO = new AuthorInDto("Terry Pratchett", true, "Reino Unido", formattedDate);
+        AuthorOutDto authorOutDto = new AuthorOutDto(1, "Terry Pratchett", true, "Reino Unido", formattedDate, List.of());
+
+        when(authorService.updateAuthor(authorId, authorInDTO)).thenReturn(authorOutDto);
+
+        String requestBody = objectMapper.writeValueAsString(authorInDTO);
+
+        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.put("/authors/{authorId}", authorId)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(authorId))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.authorName").value("Terry Pratchett"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.activeAuthor").value(true))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nationality").value("Reino Unido"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.birthDate").value(String.valueOf("1948-04-27T23:00:00.000+00:00")))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        AuthorOutDto result = objectMapper.readValue(jsonResponse, new TypeReference<>(){});
+
+        assertNotNull(result);
+        assertEquals(200, response.getResponse().getStatus());
+        assertEquals(1, result.getId());
+
+        verify(authorService, times(1)).updateAuthor(authorId, authorInDTO);
+    }
+
+//    @Test
+//    public void testModifyAuthorValidationError() throws Exception {
+//        int authorId = 1;
+//        LocalDate date = LocalDate.of(1948, 4, 28);
+//        Date formattedDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//
+//        AuthorInDto authorInDTO = new AuthorInDto("Terry Pratchett", true, "Reino Unido", formattedDate);
+//
+//        String requestBody = objectMapper.writeValueAsString(authorInDTO);
+//
+//        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.put("/authors/{authorId}", authorId)
+//                        .content(requestBody)
+//                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                        .accept(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(status().isBadRequest())
+//                .andReturn();
+//
+//        String json = response.getResponse().getContentAsString(StandardCharsets.UTF_8);
+//        ErrorResponse result = objectMapper.readValue(json, ErrorResponse.class);
+//
+//        assertEquals(400, result.getStatusCode());
+//    }
+
+//    @Test
+//    public void testModifyAuthorNotFound() throws Exception {
+//        int authorId = 1;
+//        LocalDate date = LocalDate.of(1948, 4, 28);
+//        Date formattedDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+//
+//        AuthorInDto authorInDTO = new AuthorInDto("Terry Pratchett", true, "Reino Unido", formattedDate);
+//
+//        when(authorService.updateAuthor(authorId, authorInDTO))
+//                .thenThrow(new AuthorNotFoundException("Author not found with ID: " + authorId));
+//
+//        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.put("/authors/{authorId}", authorId)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(authorInDTO))
+//                        .accept(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(status().isNotFound())
+//                .andReturn();
+//
+//        String jsonResponse = response.getResponse().getContentAsString(StandardCharsets.UTF_8);
+//        AuthorOutDto result = objectMapper.readValue(jsonResponse, new TypeReference<>() {});
+//
+//        assertNotNull(result);
+//        assertEquals(404, response.getResponse().getStatus());
+//
+//        verify(authorService, times(1)).updateAuthor(authorId, authorInDTO);
+//    }
+
     //endregion
 
     //region METHODS
