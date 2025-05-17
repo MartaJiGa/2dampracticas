@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.svalero.bookapi.controller.AuthorController;
 import com.svalero.bookapi.domain.dto.AuthorInDto;
 import com.svalero.bookapi.domain.dto.AuthorOutDto;
+import com.svalero.bookapi.exception.AuthorNotFoundException;
 import com.svalero.bookapi.service.AuthorService;
 import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -184,6 +185,55 @@ public class AuthorControllerTests {
     //endregion
 
     //region DELETE
+
+    @Test
+    public void testRemoveAuthorOk() throws Exception {
+        int authorId = 4;
+
+        doNothing().when(authorService).deleteAuthor(authorId);
+
+        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.delete("/authors/{authorId}", authorId)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        assertEquals(204, response.getResponse().getStatus());
+
+        verify(authorService, times(1)).deleteAuthor(authorId);
+    }
+
+//    @Test
+//    public void testDeleteAuthorValidationError() throws Exception {
+//        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.get("/author/authorID"))
+//                .andExpect(status().isBadRequest())
+//                .andReturn();
+//
+//        String json = response.getResponse().getContentAsString(StandardCharsets.UTF_8);
+//        ErrorResponse result = objectMapper.readValue(json, ErrorResponse.class);
+//
+//        assertEquals(400, result.getStatusCode());
+//    }
+//
+//    @Test
+//    public void testRemoveAuthorNotFound() throws Exception {
+//        int authorId = 8;
+//
+//        doThrow(new AuthorNotFoundException("Author not found with ID: " + authorId))
+//                .when(authorService).deleteAuthor(authorId);
+//
+//        MvcResult response = mockMvc.perform(MockMvcRequestBuilders.delete("/authors/{authorId}", authorId)
+//                        .accept(MediaType.APPLICATION_JSON_VALUE))
+//                .andExpect(status().isNotFound())
+//                .andReturn();
+//
+//        String json = response.getResponse().getContentAsString(StandardCharsets.UTF_8);
+//        ErrorResponse result = objectMapper.readValue(json, ErrorResponse.class);
+//
+//        assertEquals(404, result.getStatusCode());
+//
+//        verify(authorService, times(1)).deleteAuthor(authorId);
+//    }
+
     //endregion
 
     //region PUT
