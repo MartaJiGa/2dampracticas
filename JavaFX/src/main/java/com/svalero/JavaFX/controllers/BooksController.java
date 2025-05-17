@@ -1,6 +1,10 @@
 package com.svalero.JavaFX.controllers;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,14 +36,24 @@ public class BooksController {
     }
 
     private void loadBooks() {
-        CompletableFuture<List<Book>> futureBooks = ApiService.fetchBooks();
-        futureBooks.thenAccept(books -> {
-            javafx.application.Platform.runLater(() -> {
-                booksTable.getItems().setAll(books);
-            });
-        }).exceptionally(ex -> {
-            ex.printStackTrace();
-            return null;
+        ApiService apiService = new ApiService();
+        Observable<List<Book>> bookList = apiService.fetchBooks();
+
+        bookList.subscribe(
+                books -> {
+                    Platform.runLater(() -> {
+                        booksTable.getItems().setAll(books);
+                    });
+                }, this::manageError);
+    }
+
+    private void manageError(Throwable error) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Ha habido un error al obtener los datos");
+            alert.setContentText(error.getMessage());
+            alert.showAndWait();
         });
     }
 }

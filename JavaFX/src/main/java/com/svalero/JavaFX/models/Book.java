@@ -1,18 +1,21 @@
 package com.svalero.JavaFX.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
     private int id;
     private String title;
     private String genre;
     private String publicationDate;
     private boolean available;
-    private String authorName;
+    private Author author;
 
-    // Getters y Setters
-    public int getId() { return id; }
-    public String getTitle() { return title; }
-    public String getGenre() { return genre; }
-    public String getPublicationDate() { return publicationDate; }
-    public boolean isAvailable() { return available; }
-    public String getAuthorName() { return authorName; }
+    public String getAuthorName(){
+        return author != null ? author.getAuthorName() : "Sin autor";
+    }
 }
