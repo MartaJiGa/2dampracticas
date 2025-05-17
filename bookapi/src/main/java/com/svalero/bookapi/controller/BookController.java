@@ -5,6 +5,7 @@ import com.svalero.bookapi.domain.dto.BookOutDto;
 import com.svalero.bookapi.service.BookService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class BookController {
 
     @ApiResponse(responseCode = "201", description = "Book created successfully")
     @PostMapping
-    public ResponseEntity<BookOutDto> createBook(@RequestBody BookInDto bookInDto) {
+    public ResponseEntity<BookOutDto> createBook(@Valid @RequestBody BookInDto bookInDto) {
         logger.info("createBook");
         BookOutDto createdBook = bookService.createBook(bookInDto);
         return ResponseEntity.status(201).body(createdBook);
@@ -53,7 +54,7 @@ public class BookController {
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<BookOutDto> updateBook(@PathVariable Integer id, @RequestBody BookInDto bookInDto) {
+    public ResponseEntity<BookOutDto> updateBook(@PathVariable Integer id, @Valid @RequestBody BookInDto bookInDto) {
         logger.info("updateBook");
         BookOutDto updatedBook = bookService.updateBook(id, bookInDto);
         return ResponseEntity.ok(updatedBook);
