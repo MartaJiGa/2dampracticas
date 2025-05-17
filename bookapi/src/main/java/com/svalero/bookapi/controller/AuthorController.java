@@ -5,6 +5,7 @@ import com.svalero.bookapi.domain.dto.AuthorOutDto;
 import com.svalero.bookapi.service.AuthorService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class AuthorController {
 
     @ApiResponse(responseCode = "201", description = "Author created successfully")
     @PostMapping
-    public ResponseEntity<AuthorOutDto> createAuthor(@RequestBody AuthorInDto authorInDto) {
+    public ResponseEntity<AuthorOutDto> createAuthor(@Valid @RequestBody AuthorInDto authorInDto) {
         logger.info("createAuthor");
         AuthorOutDto createdAuthor = authorService.createAuthor(authorInDto);
         return ResponseEntity.status(201).body(createdAuthor);
@@ -52,7 +53,7 @@ public class AuthorController {
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<AuthorOutDto> updateAuthor(@PathVariable Integer id, @RequestBody AuthorInDto authorInDto) {
+    public ResponseEntity<AuthorOutDto> updateAuthor(@PathVariable Integer id, @Valid @RequestBody AuthorInDto authorInDto) {
         logger.info("updateAuthor");
         AuthorOutDto updatedAuthor = authorService.updateAuthor(id, authorInDto);
         return ResponseEntity.ok(updatedAuthor);
