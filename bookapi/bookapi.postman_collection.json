@@ -1,0 +1,551 @@
+{
+	"info": {
+		"_postman_id": "ce49c8db-6168-4b13-bdeb-e2876eaaf4d1",
+		"name": "bookapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31555828"
+	},
+	"item": [
+		{
+			"name": "books",
+			"item": [
+				{
+					"name": "/books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The ID is in all the elements of the list\", () => {\r",
+									"    const data = pm.response.json();\r",
+									"    data.forEach(item => {\r",
+									"        pm.expect(item).to.have.property(\"id\").that.is.a(\"number\").and.is.not.null;\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The ID is in all the elements of the list\", () => {\r",
+									"    const data = pm.response.json();\r",
+									"    data.forEach(item => {\r",
+									"        pm.expect(item).to.have.property(\"id\").that.is.a(\"number\");\r",
+									"        pm.expect(item).to.have.property(\"title\").that.is.a(\"string\").and.is.not.null;\r",
+									"        pm.expect(item).to.have.property(\"genre\").that.is.a(\"string\");\r",
+									"        pm.expect(item).to.have.property(\"publicationDate\").that.is.a(\"string\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books"
+							]
+						},
+						"description": "Get all books"
+					},
+					"response": []
+				},
+				{
+					"name": "/books/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Value is in valid list\", () => {\r",
+									"  pm.expect(pm.response.json().id).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string OK\", () => {\r",
+									"  pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books/:bookId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								":bookId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get a book by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "/books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body contains the right structure\", () => {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"genre\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"publicationDate\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"available\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response must have a body\", () => {\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"El nombre del viento\",\n  \"genre\": \"Fantasía\",\n  \"publicationDate\": \"2007-03-27\",\n  \"available\": true,\n  \"authorId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books"
+							]
+						},
+						"description": "Create a new book"
+					},
+					"response": []
+				},
+				{
+					"name": "/books/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string OK\", () => {\r",
+									"  pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"object\");\r",
+									"  pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"  pm.expect(jsonData.title).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.genre).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.publicationDate).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.available).to.be.a(\"boolean\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Cien años de soledad - Edición especial\",\n  \"genre\": \"Realismo mágico\",\n  \"publicationDate\": \"1970-07-01\",\n  \"available\": false,\n  \"authorId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/books/:bookId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								":bookId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Update a book by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "/books/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The response is empty\", () => {\r",
+									"    pm.expect(pm.response.json()).to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 150ms\", () => {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(150);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/books/:bookId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books",
+								":bookId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "8"
+								}
+							]
+						},
+						"description": "Delete a book by ID"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authors",
+			"item": [
+				{
+					"name": "/authors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"The response is an array with elements in it\", () => {\r",
+									"    const data = pm.response.json();\r",
+									"    pm.expect(data).to.be.an(\"array\").that.is.not.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", () => {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/authors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors"
+							]
+						},
+						"description": "Get all authors"
+					},
+					"response": []
+				},
+				{
+					"name": "/authors/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response property matches variable\", function () {\r",
+									"  pm.expect(pm.response.json().name).to.eql(pm.variables.get(\"name\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/authors/:authorId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								":authorId"
+							],
+							"variable": [
+								{
+									"key": "authorId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get an author by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "/authors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data type of the response\", () => {\r",
+									"  pm.expect(jsonData).to.be.an(\"object\");\r",
+									"  pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"  pm.expect(jsonData.authorName).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.activeAuthor).to.be.a(\"boolean\");\r",
+									"  pm.expect(jsonData.nationality).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.birthDate).to.be.a(\"string\");\r",
+									"  pm.expect(jsonData.books).to.be.null;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 100ms\", () => {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"authorName\": \"Gabriel García Márquez\",\n  \"activeAuthor\": false,\n  \"nationality\": \"Colombiana\",\n  \"birthDate\": \"1927-03-06\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/authors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors"
+							]
+						},
+						"description": "Create a new author"
+					},
+					"response": []
+				},
+				{
+					"name": "/authors/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body contains the right structure\", () => {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"authorName\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"activeAuthor\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"nationality\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"birthDate\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response must have a body\", () => {\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"authorName\": \"Gabriel García Márquez\",\n  \"activeAuthor\": false,\n  \"nationality\": \"Colombiana\",\n  \"birthDate\": \"1927-03-06\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/authors/:authorId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								":authorId"
+							],
+							"variable": [
+								{
+									"key": "authorId",
+									"value": "3"
+								}
+							]
+						},
+						"description": "Update an author by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "/authors/{id}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code name has string No Content\", () => {\r",
+									"  pm.response.to.have.status(\"No Content\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 100ms\", () => {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/authors/:authorId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"authors",
+								":authorId"
+							],
+							"variable": [
+								{
+									"key": "authorId",
+									"value": "9"
+								}
+							]
+						},
+						"description": "Delete an author by ID"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
